@@ -8,7 +8,7 @@ const generalSchema = new mongoose.Schema({
     country: String,
     telefon: Number,
     email: String,
-    steuerId: Number,
+    steuerId: String,
     aboutUs: String,
 }, {timestamps: true});
 // }, { collection: 'hm_trockenbau' });
