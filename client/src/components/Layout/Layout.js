@@ -5,7 +5,7 @@ import Footer from "./Footer/Footer";
 
 function Layout(props) {
   return (
-    <Container alignItems="center">
+    <Container>
       <Header />
       <main>{props.children}</main>
       <Footer />

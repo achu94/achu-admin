@@ -5,7 +5,7 @@ import { BrowserRouter as Router } from "react-router-dom";
 
 // import "semantic-ui-css/semantic.min.css"
 import App from "./App";
-// import "./index.css";
+import "./index.css";
 
 
 // import '@fontsource/roboto/300.css';
@@ -16,9 +16,7 @@ import App from "./App";
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
-  <React.StrictMode>
       <Router>
         <App />
       </Router>
-  </React.StrictMode>
 );

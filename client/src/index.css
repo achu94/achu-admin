@@ -1,0 +1,7 @@
+.input_hidden, .ui.input.input_hidden {
+    display: none;
+}
+
+.ui.compact.segment.segment_hidden{
+    display: none;
+}
