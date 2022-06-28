@@ -1,38 +1,52 @@
-import { useState, useRef } from "react";
-
+import { useState } from "react";
 
 import { Table, Icon, TextArea, Input, Segment } from "semantic-ui-react";
 
+import * as generalServices from "./homeServices";
+
 const TableRow = (props) => {
+
+  let itemValueVariable = props.value;
+
   const [isHidden, setHidden] = useState(true);
   const [isEditing, setEditing] = useState("edit");
   const [isLoading, setLoading] = useState(false);
-  const [isFocus, setFocus] = useState(false);
+  const [itemValue, setItemValue] = useState(itemValueVariable);
 
-
-  const editField = useRef();
-  const segmentField = useRef();
+  const id = props.id;
 
   const editHandle = () => {
     setHidden(false);
     setEditing("");
-    setFocus(true);
   };
 
   const saveData = (event) => {
-    const inputData = {
-      [event.target.name] : event.target.value
-    }
+    const inputKey = event.target.name;
+    const inputValue = event.target.value;
 
-    console.log(inputData);
+    const inputData = {
+      [inputKey]: inputValue,
+    };
+
+    if (inputValue == props.value || !inputValue) {
+      setHidden(true);
+      setEditing("edit");
+      return;
+    }
 
     setLoading(true);
 
-    setTimeout( () => {
+    generalServices.updateItem(id, inputData).then( newValue => {
       setHidden(true);
       setEditing("edit");
-      setFocus(false);
-    }, 2000)
+      setLoading(false);
+    });
+  };
+
+  const changeValue = (newValue) => {
+    itemValueVariable = newValue;
+    setItemValue(newValue);
+    return;
   }
 
   return (
@@ -41,21 +55,21 @@ const TableRow = (props) => {
         <Icon size="large" name={props.iconName} /> {props.name}
       </Table.Cell>
       <Table.Cell>
-        <Segment compact className={!isHidden ? "segment_hidden": ""}>{props.value}</Segment>
+        <Segment compact className={!isHidden ? "segment_hidden" : ""}>
+          {itemValueVariable}
+        </Segment>
         {props.elType === "textArea" ? (
           <TextArea
-            focus={isFocus}
             onBlur={saveData}
             loading={isLoading}
-            placeholder={props.value}
+            placeholder={itemValueVariable}
             className={isHidden ? "input_hidden" : ""}
           />
         ) : (
           <Input
-            focus={isFocus}
             onBlur={saveData}
             loading={isLoading}
-            placeholder={props.value}
+            placeholder={itemValueVariable}
             className={isHidden ? "input_hidden" : ""}
             name={props.dbKey}
           />
