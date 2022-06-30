@@ -5,3 +5,7 @@
 .ui.compact.segment.segment_hidden{
     display: none;
 }
+
+.dateTimeInput {
+    display: inline !important;
+}
