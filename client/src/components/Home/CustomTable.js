@@ -1,8 +1,29 @@
+import { useState, useEffect } from "react";
 import { Table } from "semantic-ui-react";
 
 import TableRow from "./TableRow";
 
-const CustomTable = (props) => {
+const CustomTable = () => {
+
+  const [initialState, setInitialState] = useState([]);
+
+  useEffect(() => {
+    fetch("/api/")
+      .then((res) => {
+        if (res.ok) return res.json();
+      })
+      .then((jsonResponse) => setInitialState(jsonResponse.generalData[0]));
+  }, []);
+
+  const valueHandler = (key, value) => {
+    // setInitialState({ [key]: parseInt(value)});
+
+    setInitialState(prevState => ({
+      ...prevState,
+      [key] : value
+    }));
+  }
+
   return (
     <Table celled striped>
       <Table.Header>
@@ -14,46 +35,51 @@ const CustomTable = (props) => {
       </Table.Header>
       <Table.Body>
         <TableRow
-          id={props.data._id}
+          valueHandler={valueHandler}
+          id={initialState._id}
           name="Straße"
-          value={props.data.street}
+          value={initialState.street}
           iconName="address card"
           dbKey="street"
         />
         <TableRow
-          id={props.data._id}
+          valueHandler={valueHandler}
+          id={initialState._id}
           name="PLZ"
-          value={props.data.postalCode}
+          value={initialState.postalCode}
           iconName="address card"
           dbKey="postalCode"
         />
         <TableRow
-          id={props.data._id}
+          valueHandler={valueHandler}
+          id={initialState._id}
           name="Stadt"
-          value={props.data.city}
+          value={initialState.city}
           iconName="address card"
           dbKey="city"
         />
         <TableRow
-          id={props.data._id}
+          valueHandler={valueHandler}
+          id={initialState._id}
           name="Land"
-          value={props.data.country}
+          value={initialState.country}
           iconName="address card"
           dbKey="country"
         />
-        <TableRow id={props.data._id} name="Telefon" value={props.data.telefon} iconName="phone" dbKey="telefon" />
-        <TableRow id={props.data._id} name="E-Mailadresse" value={props.data.email} iconName="at" dbKey="email"/>
+        <TableRow valueHandler={valueHandler} id={initialState._id} name="Telefon" value={initialState.telefon} iconName="phone" dbKey="telefon" />
+        <TableRow valueHandler={valueHandler} id={initialState._id} name="E-Mailadresse" value={initialState.email} iconName="at" dbKey="email"/>
         <TableRow
-          id={props.data._id}
+          id={initialState._id}
           name="SteuerID"
-          value={props.data.steuerId}
+          value={initialState.steuerId}
           iconName="id card"
           dbKey="steuerId"
         />
         <TableRow
-          id={props.data._id}
+        valueHandler={valueHandler}
+          id={initialState._id}
           name="Über Uns"
-          value={props.data.aboutUs}
+          value={initialState.aboutUs}
           iconName="id card"
           elType="textArea"
           dbKey="aboutUs"

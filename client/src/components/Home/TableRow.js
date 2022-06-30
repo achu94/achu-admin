@@ -6,12 +6,9 @@ import * as generalServices from "./homeServices";
 
 const TableRow = (props) => {
 
-  let itemValueVariable = props.value;
-
   const [isHidden, setHidden] = useState(true);
   const [isEditing, setEditing] = useState("edit");
   const [isLoading, setLoading] = useState(false);
-  const [itemValue, setItemValue] = useState(itemValueVariable);
 
   const id = props.id;
 
@@ -31,6 +28,7 @@ const TableRow = (props) => {
     if (inputValue == props.value || !inputValue) {
       setHidden(true);
       setEditing("edit");
+      event.target.value = "";
       return;
     }
 
@@ -40,14 +38,10 @@ const TableRow = (props) => {
       setHidden(true);
       setEditing("edit");
       setLoading(false);
+      event.target.value = "";
+      props.valueHandler(inputKey, inputValue);
     });
   };
-
-  const changeValue = (newValue) => {
-    itemValueVariable = newValue;
-    setItemValue(newValue);
-    return;
-  }
 
   return (
     <Table.Row>
@@ -56,20 +50,21 @@ const TableRow = (props) => {
       </Table.Cell>
       <Table.Cell>
         <Segment compact className={!isHidden ? "segment_hidden" : ""}>
-          {itemValueVariable}
+          {props.value}
         </Segment>
         {props.elType === "textArea" ? (
           <TextArea
             onBlur={saveData}
             loading={isLoading}
-            placeholder={itemValueVariable}
+            placeholder={props.value}
             className={isHidden ? "input_hidden" : ""}
+            name={props.dbKey}
           />
         ) : (
           <Input
             onBlur={saveData}
             loading={isLoading}
-            placeholder={itemValueVariable}
+            placeholder={props.value}
             className={isHidden ? "input_hidden" : ""}
             name={props.dbKey}
           />
