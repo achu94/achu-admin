@@ -1,50 +1,48 @@
-import { useState } from "react";
-import { Checkbox, Container, Header, List, Segment } from "semantic-ui-react";
-import { TimeInput } from "semantic-ui-react-datetimeinput";
+import { useEffect, useState } from "react";
+import { Header, Segment } from "semantic-ui-react";
+
+import Weekdays from "./Weekdays";
 
 function BusinessHours() {
-  const [timeValue, setTimeValue] = useState(new Date());
 
-  const weekdays = {
-    Montag: ["08:00", "18:00"],
-    Dienstag: ["08:00", "18:00"],
-    Mittwoch: ["08:00", "18:00"],
-    Donnerstag: ["08:00", "18:00"],
-    Freitag: ["08:00", "18:00"],
-    Samstag: ["08:00", "18:00"],
-    Sonntag: ["08:00", "18:00"],
-  };
+  const [weekdays, setWeekdays] = useState({});
 
-  const closedButton = () => <Checkbox toggle />;
+  useEffect( () => {
+    fetch("/api/time")
+      .then((res) => {
+        if (res.ok) return res.json();
+      })
+      .then((jsonResponse) => setWeekdays(jsonResponse[0]));
+  }, []);
 
-  const getTimeSelector = () => {
-    return (
-      <TimeInput
-        size="small"
-        onDateValueChange={(newTimeValue) => setTimeValue(newTimeValue)}
-        className="dateTimeInput"
-        dateValue={timeValue}
-        buttondoubleclickstepcountforminute={15}
-      />
-    );
-  };
+  const weekDayHandel = (day, time) => {
+    setWeekdays(prevState => ({
+      ...prevState,
+      [day]: time
+    }));
+  }
+
+  if(!weekdays){
+    return <h1>Loading..</h1>;
+  }
 
   return (
     <>
       <Header as="h1">Öffnugszeiten (Von/Bis oder Geschlossen)</Header>
-      <Segment>
+      <Segment.Group>
         {Object.keys(weekdays).map((day, index) => {
-          return (
-            <Segment key={day * index.toString()} textAlign="center">
-              <Header as="h4">{`${day}: `}</Header>
-              {getTimeSelector()}  {getTimeSelector()}
-              <br></br>
-              <br></br>
-              {closedButton()}
-            </Segment>
-          );
+          if(day === '_id' || day === 'updatedAt') return undefined;
+
+          return <Weekdays 
+            key={index.toString()}
+            name={day}
+            timeValue={weekdays[day]}
+            timeHandle={weekDayHandel}
+            closed={weekdays[day][2] ? true : false}
+            id={weekdays._id}
+          />
         })}
-      </Segment>
+      </Segment.Group>
     </>
   );
 }

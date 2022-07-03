@@ -34,7 +34,7 @@ const TableRow = (props) => {
 
     setLoading(true);
 
-    generalServices.updateItem(id, inputData).then( newValue => {
+    generalServices.updateItem(id, inputData).then( _ => {
       setHidden(true);
       setEditing("edit");
       setLoading(false);

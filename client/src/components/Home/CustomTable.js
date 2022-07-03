@@ -16,8 +16,6 @@ const CustomTable = () => {
   }, []);
 
   const valueHandler = (key, value) => {
-    // setInitialState({ [key]: parseInt(value)});
-
     setInitialState(prevState => ({
       ...prevState,
       [key] : value
