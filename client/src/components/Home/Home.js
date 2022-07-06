@@ -1,10 +1,13 @@
 import CustomTable from "./CustomTable";
 
+import BussinesHours from '../BusinessHours/BusinessHours';
+
 function Home() {
   return (
-    <div>
-      <CustomTable />
-    </div>
+    <>
+        <CustomTable />
+        <BussinesHours />
+    </>
   );
 }
 

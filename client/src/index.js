@@ -2,6 +2,7 @@ import React from "react";
 import ReactDOM from "react-dom/client";
 
 import { BrowserRouter as Router } from "react-router-dom";
+import Layout from "./components/Layout/Layout";
 
 // import "semantic-ui-css/semantic.min.css"
 import App from "./App";
@@ -16,7 +17,9 @@ import "./index.css";
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
-      <Router>
-        <App />
-      </Router>
+    <Layout>
+        <Router>
+            <App />
+        </Router>
+    </Layout>
 );
