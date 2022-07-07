@@ -84,24 +84,24 @@ const Navbar = (props) => {
     const {children, leftItems, rightItems} = props;
 
     return (
-        <div>
-            <div className="mobile">
-                <NavBarMobile
-                    leftItems={leftItems}
-                    onPusherClick={handlePusher}
-                    onToggle={handleToggle}
-                    rightItems={rightItems}
-                    visible={visible}
-                >
-                    <NavBarChildren>{children}</NavBarChildren>
-                </NavBarMobile>
-            </div>
+        <>
+            {/*<div className="mobile">*/}
+            {/*    <NavBarMobile*/}
+            {/*        leftItems={leftItems}*/}
+            {/*        onPusherClick={handlePusher}*/}
+            {/*        onToggle={handleToggle}*/}
+            {/*        rightItems={rightItems}*/}
+            {/*        visible={visible}*/}
+            {/*    >*/}
+            {/*        <NavBarChildren>{children}</NavBarChildren>*/}
+            {/*    </NavBarMobile>*/}
+            {/*</div>*/}
 
             <div className="desktop">
                 <NavBarDesktop leftItems={leftItems} rightItems={rightItems}/>
                 <NavBarChildren>{children}</NavBarChildren>
             </div>
-        </div>
+        </>
     );
 }
 
