@@ -1,8 +1,8 @@
 const router = require("express").Router();
-const productListService = require("../services/productListService");
+const productService = require("../services/productService");
 
 router.get("/", (req, res, next) => {
-    productListService
+    productService
        .getAll()
        .then((productList) => {
            console.log(productList);

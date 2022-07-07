@@ -1,4 +1,4 @@
-const ProductList = require("../models/ProductList");
+const Product = require("../models/Product");
 
 const getAll = () => {
     return ProductList.find({}).then(productList => productList);
@@ -13,7 +13,7 @@ const insertProduct = () => {
         profilBild: 1
     }
 
-    const newProduct = new ProductList(data);
+    const newProduct = new Product(data);
     newProduct.save();
 }
 

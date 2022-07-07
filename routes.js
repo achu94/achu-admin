@@ -2,10 +2,10 @@ const router = require("express").Router();
 
 const generalController = require("./controllers/generalController");
 const timesController   = require("./controllers/timesController.js");
-const productListController= require("./controllers/productListController");
+const productController= require("./controllers/productController");
 
 router.use("/", generalController);
 router.use("/time", timesController);
-router.use("/productList", productListController);
+router.use("/product", productController);
 
 module.exports = router;
