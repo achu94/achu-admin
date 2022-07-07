@@ -1,18 +1,5 @@
 import {useState} from "react";
-import {createMedia} from "@artsy/fresnel";
 import {Container, Icon, Image, Menu, Sidebar} from "semantic-ui-react";
-
-const AppMedia = createMedia({
-    breakpoints: {
-        mobile: 320,
-        tablet: 768,
-        computer: 992,
-        largeScreen: 1200,
-        widescreen: 1920
-    }
-});
-
-const {Media} = AppMedia;
 
 const NavBarMobile = (props) => {
     const {
@@ -98,7 +85,7 @@ const Navbar = (props) => {
 
     return (
         <div>
-            <Media at="mobile">
+            <div className="mobile">
                 <NavBarMobile
                     leftItems={leftItems}
                     onPusherClick={handlePusher}
@@ -108,12 +95,12 @@ const Navbar = (props) => {
                 >
                     <NavBarChildren>{children}</NavBarChildren>
                 </NavBarMobile>
-            </Media>
+            </div>
 
-            <Media greaterThan="mobile">
+            <div className="desktop">
                 <NavBarDesktop leftItems={leftItems} rightItems={rightItems}/>
                 <NavBarChildren>{children}</NavBarChildren>
-            </Media>
+            </div>
         </div>
     );
 }
