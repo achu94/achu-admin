@@ -11,7 +11,7 @@ const ProductList = () => {
             .then((res) => {
                 if (res.ok) return res.json();
             })
-            .then((jsonResponse) => setProducts(prevState => [...prevState, jsonResponse.productList]));
+            .then((jsonResponse) => setProducts(prevState => [...prevState, jsonResponse]));
     }, []);
 
     if(products.length < 1) return <h1>Loading...</h1>;
