@@ -5,19 +5,19 @@ const productSchema = new mongoose.Schema({
         type: String,
         required: true
     },
-    header: {
+    ueberschrift: {
         type: String,
         default: 'Ich bin ein Muster Überschrift.'
     },
-    bilderId: {
-        type: [Number],
+    allgemeintext: {
+        type: String,
     },
-    productId: {
+    profilbildid: {
         type: Number,
     },
-    profilBildId: {
+    bilderid: {
         type: [Number],
-    },
+    }
 }, {timestamps: true});
 
-module.exports = mongoose.model('productLists', productSchema);
+module.exports = mongoose.model('products', productSchema);

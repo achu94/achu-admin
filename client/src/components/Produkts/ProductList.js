@@ -2,7 +2,7 @@ import {Grid, Menu, Button, Modal} from 'semantic-ui-react'
 import Products from "./Products";
 import { useState, useEffect } from "react";
 
-import PopUP from "../PopUP";
+import * as productServices from "../../services/productServices";
 
 const ProductList = () => {
     const [products, setProducts] = useState([]);
@@ -10,11 +10,10 @@ const ProductList = () => {
     const [isNew, setIsNew] = useState(false);
 
     useEffect( () => {
-        fetch("/api/product")
-            .then((res) => {
-                if (res.ok) return res.json();
-            })
-            .then((jsonResponse) => setProducts(prevState => [...prevState, jsonResponse]));
+        productServices.getProductList()
+            .then((jsonResponse) => {
+                setProducts(prevState => [...prevState, ...jsonResponse])
+            });
     }, []);
 
     const addProductHandle = () => {
@@ -23,7 +22,17 @@ const ProductList = () => {
         const newProduct = {name: "new"};
         setProducts( prevState => ([...prevState, newProduct]));
         setIsNew(true);
+        setActiveItem("new");
     };
+
+    const setProductsHandler = (productArray) => {
+        const newProductsArray = Object.values(products).filter(el => el._id );
+        newProductsArray.push(productArray);
+
+        setProducts(newProductsArray);
+        setActiveItem(productArray.name);
+        setIsNew(false);
+    }
 
     return (
         <Grid>
@@ -32,20 +41,21 @@ const ProductList = () => {
                 <Menu fluid vertical tabular>
                     {products ? products.map( (product) => {
                         if(!product) return;
+                        if(!activeItem) setActiveItem(products[0].name)
 
-                        const { name, _id} = product;
+                        const { name, _id, ueberschrift, allgemeintext} = product;
 
                         return <Menu.Item
                             name={name}
                             active={activeItem === name}
                             onClick={() => setActiveItem(name)}
-                            key={_id}
+                            key={_id ? _id : Math.random() * 2.5}
                         />;
                     }): ""}
                 </Menu>
             </Grid.Column>
             <Grid.Column stretched width={12}>
-                <Products name={activeItem} />
+                <Products name={activeItem} productsHandler={setProductsHandler} {...products} />
             </Grid.Column>
         </Grid>
     )
