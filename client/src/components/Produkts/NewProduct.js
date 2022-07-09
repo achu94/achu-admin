@@ -22,9 +22,12 @@ class NewProduct extends Component {
 
     onSubmitHandle(event){
         event.preventDefault();
-        this.setState(prevState => prevState.isLoading = true);
         const {target} = event;
 
+        // Wenn abgebrochen wird.
+        if(target.type === 'button') return this.props.productsHandler();
+
+        this.setState(prevState => prevState.isLoading = true);
         const submitData = Object.fromEntries(new FormData(target));
 
         if(!submitData.name || submitData.name.length < 3){
@@ -48,6 +51,7 @@ class NewProduct extends Component {
                         label='Bezeichnung'
                         name="name"
                         placeholder='Bezeichnung'
+                        autoFocus={true}
                     />
                     <Form.Field
                         control={Input}
@@ -65,11 +69,22 @@ class NewProduct extends Component {
 
                 <Form.Field
                     control={Input}
+                    label='Profil Bild'
+                    name='profilBild'
+                    type="file"
+                    icon='file'
+                />
+                <Form.Field
+                    control={Input}
                     label='Galerie'
                     name='Galerie'
                     type="file"
+                    icon='file'
                 />
-                <Form.Field control={Button}>Absenden</Form.Field>
+                <Form.Group>
+                    <Form.Field positive control={Button}>Absenden</Form.Field>
+                    <Form.Field floated='right' onClick={this.onSubmitHandle} type="button" negative control={Button}>Abbrechen</Form.Field>
+                </Form.Group>
             </Form>
         )
     }

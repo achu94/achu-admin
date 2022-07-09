@@ -1,4 +1,4 @@
-import {Grid, Menu, Button, Modal} from 'semantic-ui-react'
+import {Grid, Menu, Button} from 'semantic-ui-react'
 import Products from "./Products";
 import { useState, useEffect } from "react";
 
@@ -26,24 +26,37 @@ const ProductList = () => {
     };
 
     const setProductsHandler = (productArray) => {
-        const newProductsArray = Object.values(products).filter(el => el._id );
-        newProductsArray.push(productArray);
+        // das Object für neues Product anlegen wird entfernt.
+        const newProductsArray = Object.values(products).filter(el => el._id);
+
+        // nur wenn neues Product geliefert wird.(productArray);
+        if(productArray) {
+            newProductsArray.push(productArray);
+            setActiveItem(productArray.name);
+        }
+        else {
+            setActiveItem("");
+        }
 
         setProducts(newProductsArray);
-        setActiveItem(productArray.name);
         setIsNew(false);
     }
 
     return (
         <Grid>
             <Grid.Column width={4}>
-                <Button disabled={isNew} positive onClick={addProductHandle}>Neu</Button>
+                <Button
+                    color='teal'
+                    icon='add'
+                    disabled={isNew}
+                    onClick={addProductHandle}
+                />
                 <Menu fluid vertical tabular>
                     {products ? products.map( (product) => {
                         if(!product) return;
                         if(!activeItem) setActiveItem(products[0].name)
 
-                        const { name, _id, ueberschrift, allgemeintext} = product;
+                        const { name, _id} = product;
 
                         return <Menu.Item
                             name={name}
