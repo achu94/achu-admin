@@ -15,4 +15,12 @@ router.post("/new", (req, res, next) => {
     }).catch(next);
 })
 
+router.post('/:productID', (req, res, next) => {
+    let productID = req.params.productID;
+
+    productService.removeProduct(productID).then( status => {
+        res.json(status);
+    }).catch(next);
+})
+
 module.exports = router;

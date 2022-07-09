@@ -1,15 +1,20 @@
 import {Segment, Image, Button, Item} from "semantic-ui-react";
 import NewProduct from "./NewProduct";
+import * as productServices from "../../services/productServices";
 
 function Products(props) {
     const {name} = props;
 
-    const productAnpassenHandler = () => {
-        alert('Anpassung:' + props.name);
+    const productAnpassenHandler = (id) => {
+        alert('Anpassung:' + props.name, id);
     }
 
-    const productLoeschenHandler = () => {
-        alert('Läschen:' + props.name);
+    const productLoeschenHandler = (id) => {
+        productServices.removeProduct(id).then( res => {
+            if(res.deletedCount) {
+                if(res.deletedCount) props.removeProduct(id);
+            }
+        });
     }
 
     if(props.name === "new"){
@@ -19,7 +24,6 @@ function Products(props) {
     let product = {};
     if(props && props[0]){
         product = Object.values(props).filter( el => el.name === name)[0];
-
     }
 
     const loremText = `Lorem ipsum dolor sit amet, consectetur adipiscing elit, 
@@ -34,9 +38,9 @@ function Products(props) {
     if(product) return (
         <>
             <Button.Group>
-                <Button onClick={productAnpassenHandler} color={"yellow"}>Anpassen</Button>
+                <Button onClick={() => productAnpassenHandler(product._id)} color={"yellow"}>Anpassen</Button>
                 <Button.Or />
-                <Button onClick={productLoeschenHandler} negative>Löschen</Button>
+                <Button onClick={() => productLoeschenHandler(product._id)} negative>Löschen</Button>
             </Button.Group>
             <Item.Group>
                 <Item>

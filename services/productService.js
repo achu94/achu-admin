@@ -9,7 +9,12 @@ const insertProduct = (product) => {
     return newProduct.save();
 }
 
+const removeProduct = (id) => {
+    return Product.deleteOne({_id: id})
+}
+
 module.exports = {
     getAll,
     insertProduct,
+    removeProduct
 }

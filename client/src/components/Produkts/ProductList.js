@@ -42,6 +42,11 @@ const ProductList = () => {
         setIsNew(false);
     }
 
+    const removeProduct = (productId) => {
+        const newProductsArray = Object.values(products).filter(el => el._id !== productId);
+        setProducts(newProductsArray);
+    }
+
     return (
         <Grid>
             <Grid.Column width={4}>
@@ -68,7 +73,7 @@ const ProductList = () => {
                 </Menu>
             </Grid.Column>
             <Grid.Column stretched width={12}>
-                <Products name={activeItem} productsHandler={setProductsHandler} {...products} />
+                <Products name={activeItem} productsHandler={setProductsHandler} removeProduct={removeProduct} {...products} />
             </Grid.Column>
         </Grid>
     )

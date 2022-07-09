@@ -24,3 +24,15 @@ export const newProduct = (prductData) => {
             console.log('Looks like there was a problem: \n', error);
         });
 };
+
+export const removeProduct = (id) => {
+    const requestOptions = {
+        method: 'POST',
+        headers: {'Content-Type': 'application/json'},
+    };
+    return fetch(`/api/product/${id}`, requestOptions)
+        .then(res => res.json())
+        .catch(function (error) {
+            console.log('Looks like there was a problem: \n', error);
+        });
+}
