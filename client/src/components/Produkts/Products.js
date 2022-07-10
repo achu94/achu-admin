@@ -1,6 +1,8 @@
-import {Segment, Image, Button, Item} from "semantic-ui-react";
+import { useState } from "react";
+import {Segment, Image, Button, Item, Form} from "semantic-ui-react";
 import NewProduct from "./NewProduct";
 import * as productServices from "../../services/productServices";
+import MyDropzone from "../util/MyDropzone";
 
 function Products(props) {
     const {name} = props;
@@ -15,6 +17,16 @@ function Products(props) {
                 if(res.deletedCount) props.removeProduct(id);
             }
         });
+    }
+
+    async function onUploadImage(imageObj, productId){
+        if(!imageObj.name) return;
+
+        const formData = new FormData();
+        formData.append('file', imageObj);
+        formData.append('productId', productId);
+
+        return productServices.uploadImage(formData);
     }
 
     if(props.name === "new"){
@@ -54,8 +66,13 @@ function Products(props) {
                     </Item.Content>
                 </Item>
             </Item.Group>
+
+            <Segment>
+                <MyDropzone productId={product._id} onUploadImageHandler={onUploadImage} inputName={"Galerie"}/>
+            </Segment>
+
             <Image.Group size='tiny' spaced={true}>
-                <Image src={src} />
+                <Image src={"https://achu-admin.s3.amazonaws.com/212641441feee23b16a7c522b6b8daa5"} />
                 <Image src={src} />
                 <Image src={src} />
                 <Image src={src} />

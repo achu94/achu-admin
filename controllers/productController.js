@@ -1,5 +1,8 @@
 const router = require("express").Router();
 const productService = require("../services/productService");
+const multer  = require('multer')
+const upload = multer({ dest: "uploads" })
+const { uploadFile } = require("../aws");
 
 router.get("/", (req, res, next) => {
     productService.getAll()
@@ -13,6 +16,20 @@ router.post("/new", (req, res, next) => {
     productService.insertProduct(body).then(product => {
         res.json(product)
     }).catch(next);
+})
+
+router.post('/upload', upload.single('file'), async (req, res, next) => {
+    const file = req.file;
+    const productName = req.body.productName;
+
+    try {
+        const result = await uploadFile(file);
+        console.log(result);
+        res.json(result.Location);
+    } catch (error) {
+        next(error);
+        // res.sendStatus(404);
+    }
 })
 
 router.post('/:productID', (req, res, next) => {

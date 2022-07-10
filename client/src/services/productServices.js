@@ -36,3 +36,15 @@ export const removeProduct = (id) => {
             console.log('Looks like there was a problem: \n', error);
         });
 }
+
+export const uploadImage = (image) => {
+    const requestOptions = {
+        method: 'POST',
+        body: image
+    };
+    return fetch(`api/product/upload`, requestOptions)
+        .then(res => res.json())
+        .catch(function (error) {
+            console.log('Looks like there was a problem: \n', error);
+        });
+};

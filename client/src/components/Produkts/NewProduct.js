@@ -1,12 +1,12 @@
-import React, { Component } from 'react'
+import React, { Component, } from 'react'
 import {
     Button,
     Form,
-    Input,
-    TextArea
+    Segment,
 } from 'semantic-ui-react'
-
+import MyDropzone from "../util/MyDropzone";
 import * as productServices from "../../services/productServices";
+import {uploadImage} from "../../services/productServices";
 
 class NewProduct extends Component {
 
@@ -15,9 +15,12 @@ class NewProduct extends Component {
 
         this.state = {
             isLoading: false,
+            uploadImages: [],
         }
 
         this.onSubmitHandle = this.onSubmitHandle.bind(this);
+
+        this.src="https://react.semantic-ui.com/images/wireframe/image.png";
     }
 
     onSubmitHandle(event){
@@ -44,43 +47,31 @@ class NewProduct extends Component {
 
     render() {
         return (
-            <Form loading={this.state.isLoading} onSubmit={this.onSubmitHandle}>
+            <Form loading={this.state.isLoading} onSubmit={this.onSubmitHandle} encType="multipart/form-data">
                 <Form.Group widths='equal'>
-                    <Form.Field
-                        control={Input}
-                        label='Bezeichnung'
-                        name="name"
-                        placeholder='Bezeichnung'
-                        autoFocus={true}
-                    />
-                    <Form.Field
-                        control={Input}
-                        label='Kurz text'
-                        name='ueberschrift'
-                        placeholder='Kurz text'
-                    />
+                    <Form.Field>
+                        <label>Bezeichnung</label>
+                        <input type="text"
+                               name="name"
+                               placeholder='Bezeichnung'
+                               autoFocus={true}
+                        />
+                    </Form.Field>
+                    <Form.Field>
+                        <label>Kurz Bezeichnung</label>
+                        <input type="text"
+                               name="ueberschrift"
+                               placeholder='Kurz Bezeichnung über das Produkt.'
+                        />
+                    </Form.Field>
                 </Form.Group>
-                <Form.Field
-                    control={TextArea}
-                    label='Text'
-                    name='allgemeintext'
-                    placeholder='Mehr über das Produkt'
-                />
-
-                <Form.Field
-                    control={Input}
-                    label='Profil Bild'
-                    name='profilBild'
-                    type="file"
-                    icon='file'
-                />
-                <Form.Field
-                    control={Input}
-                    label='Galerie'
-                    name='Galerie'
-                    type="file"
-                    icon='file'
-                />
+                <Form.Field>
+                    <label>Text</label>
+                    <textarea
+                           name="allgemeintext"
+                           placeholder='Mehr über das Produkt.'
+                    />
+                </Form.Field>
                 <Form.Group>
                     <Form.Field positive control={Button}>Absenden</Form.Field>
                     <Form.Field floated='right' onClick={this.onSubmitHandle} type="button" negative control={Button}>Abbrechen</Form.Field>
