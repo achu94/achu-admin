@@ -20,11 +20,20 @@ router.post("/new", (req, res, next) => {
 
 router.post('/upload', upload.single('file'), async (req, res, next) => {
     const file = req.file;
-    const productName = req.body.productName;
+    const productId = req.body.productId;
 
     try {
         const result = await uploadFile(file);
-        console.log(result);
+        if(result.Location){
+
+            const photoData = {
+                key: result.key,
+                productId: productId
+            };
+
+            productService.insertPhoto(photoData);
+        }
+
         res.json(result.Location);
     } catch (error) {
         next(error);

@@ -38,8 +38,6 @@ class NewProduct extends Component {
             return;
         }
 
-        if(!submitData.Galerie.name) delete submitData.Galerie;
-
         productServices.newProduct(submitData).then(res => {
             this.props.productsHandler(res);
         });

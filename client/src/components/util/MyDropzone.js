@@ -39,8 +39,8 @@ function MyDropzone(props) {
                 <>
                     <Divider />
                     <Image.Group size="small">
-                        {droppedElements.map( (file) => (
-                            <Image src={file} />
+                        {droppedElements.map( (file, index) => (
+                            <Image key={index} src={file} />
                         ))}
                     </Image.Group>
                 </>
