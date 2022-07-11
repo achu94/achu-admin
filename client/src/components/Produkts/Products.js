@@ -1,11 +1,17 @@
-import { useState } from "react";
+import {useState, useEffect, useRef} from "react";
 import {Segment, Image, Button, Item, Form} from "semantic-ui-react";
 import NewProduct from "./NewProduct";
 import * as productServices from "../../services/productServices";
 import MyDropzone from "../util/MyDropzone";
 
+
 function Products(props) {
     const {name} = props;
+    const ref = useRef();
+
+    useEffect( () => {
+        if(props[0] && props[0]._id) ref.productId = props[0]._id;
+    });
 
     const productAnpassenHandler = (id) => {
         alert('Anpassung:' + props.name, id);
@@ -19,12 +25,12 @@ function Products(props) {
         });
     }
 
-    async function onUploadImage(imageObj, productId){
+    async function onUploadImage(imageObj){
         if(!imageObj.name) return;
 
         const formData = new FormData();
         formData.append('file', imageObj);
-        formData.append('productId', productId);
+        formData.append('productId', ref.productId);
 
         return productServices.uploadImage(formData);
     }
@@ -68,7 +74,7 @@ function Products(props) {
             </Item.Group>
 
             <Segment>
-                <MyDropzone productId={product._id} onUploadImageHandler={onUploadImage} inputName={"Galerie"}/>
+                <MyDropzone onUploadImageHandler={onUploadImage} inputName={"Galerie"}/>
             </Segment>
 
             <Image.Group size='tiny' spaced={true}>
