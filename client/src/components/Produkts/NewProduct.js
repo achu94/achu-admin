@@ -16,11 +16,29 @@ class NewProduct extends Component {
         this.state = {
             isLoading: false,
             uploadImages: [],
+            itemValues: {
+                name: this.props.name,
+                ueberschrift: this.props.ueberschrift,
+                allgemeintext: this.props.allgemeintext,
+                itemId : this.props.editId
+            }
         }
 
         this.onSubmitHandle = this.onSubmitHandle.bind(this);
+        this.handleUserInput = this.handleUserInput.bind(this);
 
         this.src="https://react.semantic-ui.com/images/wireframe/image.png";
+    }
+
+    componentDidMount() {
+
+        if(this.props.editId){
+            const productData = Object.values(this.props).filter( el => el._id === this.props.editId)[0];
+
+            this.setState( prevState => (
+                prevState.itemValues  = productData
+            ));
+        }
     }
 
     onSubmitHandle(event){
@@ -43,6 +61,12 @@ class NewProduct extends Component {
         });
     }
 
+    handleUserInput(e){
+        this.setState( prevState => (
+            prevState.itemValues[e.target.name] = e.target.value
+        ));
+    }
+
     render() {
         return (
             <Form loading={this.state.isLoading} onSubmit={this.onSubmitHandle} encType="multipart/form-data">
@@ -53,6 +77,8 @@ class NewProduct extends Component {
                                name="name"
                                placeholder='Bezeichnung'
                                autoFocus={true}
+                               defaultValue={this.state.itemValues.name && this.state.itemValues.name !== 'new' ? this.state.itemValues.name : ""}
+                               onChange={this.handleUserInput}
                         />
                     </Form.Field>
                     <Form.Field>
@@ -60,6 +86,7 @@ class NewProduct extends Component {
                         <input type="text"
                                name="ueberschrift"
                                placeholder='Kurz Bezeichnung über das Produkt.'
+                               defaultValue={this.state.itemValues.ueberschrift}
                         />
                     </Form.Field>
                 </Form.Group>
@@ -68,6 +95,7 @@ class NewProduct extends Component {
                     <textarea
                            name="allgemeintext"
                            placeholder='Mehr über das Produkt.'
+                           defaultValue={this.state.itemValues.allgemeintext}
                     />
                 </Form.Field>
                 <Form.Group>

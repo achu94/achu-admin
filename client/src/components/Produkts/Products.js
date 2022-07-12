@@ -3,9 +3,11 @@ import {Segment, Image, Button, Item, Form} from "semantic-ui-react";
 import NewProduct from "./NewProduct";
 import * as productServices from "../../services/productServices";
 import MyDropzone from "../util/MyDropzone";
+import newProduct from "./NewProduct";
 
 
 function Products(props) {
+    const [edit, setEdit] = useState(null);
     const {name} = props;
     const ref = useRef();
 
@@ -14,7 +16,7 @@ function Products(props) {
     });
 
     const productAnpassenHandler = (id) => {
-        alert('Anpassung:' + props.name, id);
+        setEdit( prevState => prevState = id);
     }
 
     const productLoeschenHandler = (id) => {
@@ -35,8 +37,8 @@ function Products(props) {
         return productServices.uploadImage(formData);
     }
 
-    if(props.name === "new"){
-        return <NewProduct productsHandler={props.productsHandler}/>
+    if(props.name === "new" || edit){
+        return <NewProduct editId={edit} {...props} productsHandler={props.productsHandler}/>
     }
 
     let product = {};
