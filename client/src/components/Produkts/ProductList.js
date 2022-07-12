@@ -48,6 +48,7 @@ const ProductList = () => {
 
     const removeProduct = (productId) => {
         const newProductsArray = Object.values(products).filter(el => el._id !== productId);
+        setActiveItem(_ => newProductsArray[0].name);
         setProducts(newProductsArray);
     }
 
