@@ -27,12 +27,16 @@ const ProductList = () => {
 
     const setProductsHandler = (productArray) => {
         // das Object für neues Product anlegen wird entfernt.
-        const newProductsArray = Object.values(products).filter(el => el._id);
+        const newProductsArray = Object.values(products).filter(el => {
+            if(el._id && el._id !== productArray._id){
+                return el;
+            }
+        });
 
         // nur wenn neues Product geliefert wird.(productArray);
         if(productArray) {
             newProductsArray.push(productArray);
-            setActiveItem(productArray.name);
+            setActiveItem(prevState => productArray.name);
         }
         else {
             setActiveItem("");

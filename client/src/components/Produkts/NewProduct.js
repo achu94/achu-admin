@@ -1,12 +1,9 @@
 import React, { Component, } from 'react'
 import {
     Button,
-    Form,
-    Segment,
+    Form
 } from 'semantic-ui-react'
-import MyDropzone from "../util/MyDropzone";
 import * as productServices from "../../services/productServices";
-import {uploadImage} from "../../services/productServices";
 
 class NewProduct extends Component {
 
@@ -27,7 +24,6 @@ class NewProduct extends Component {
         this.onSubmitHandle = this.onSubmitHandle.bind(this);
         this.handleUserInput = this.handleUserInput.bind(this);
 
-        this.src="https://react.semantic-ui.com/images/wireframe/image.png";
     }
 
     componentDidMount() {
@@ -56,8 +52,13 @@ class NewProduct extends Component {
             return;
         }
 
+        if(this.state.itemValues._id) submitData.editId = this.state.itemValues._id;
+
         productServices.newProduct(submitData).then(res => {
             this.props.productsHandler(res);
+            if(this.props.editId && this.props.editHandleExported){
+                this.props.editHandleExported();
+            }
         });
     }
 

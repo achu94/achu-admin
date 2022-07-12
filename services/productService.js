@@ -7,8 +7,19 @@ const getAll = () => {
 }
 
 const insertProduct = (product) => {
+
+    if(product.editId) return updateProduct(product.editId, product);
+
     const newProduct = new Product(product);
     return newProduct.save();
+}
+
+const updateProduct = async (id, product) => {
+    const filter = { _id: id };
+
+    await Product.findOneAndUpdate(filter, product, { new: true });
+
+    return Product.findOne(filter).populate({path: 'bilderid', select: '_id, key'});
 }
 
 const removeProduct = (id) => {

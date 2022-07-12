@@ -37,8 +37,12 @@ function Products(props) {
         return productServices.uploadImage(formData);
     }
 
+    const editHandleExported = () => {
+        setEdit( prevState => prevState = null);
+    }
+
     if(props.name === "new" || edit){
-        return <NewProduct editId={edit} {...props} productsHandler={props.productsHandler}/>
+        return <NewProduct editHandleExported={editHandleExported} editId={edit} {...props} productsHandler={props.productsHandler}/>
     }
 
     let product = {};
