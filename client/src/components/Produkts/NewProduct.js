@@ -101,7 +101,7 @@ class NewProduct extends Component {
                 </Form.Field>
                 <Form.Group>
                     <Form.Field positive control={Button}>Absenden</Form.Field>
-                    <Form.Field floated='right' onClick={this.onSubmitHandle} type="button" negative control={Button}>Abbrechen</Form.Field>
+                    <Form.Field floated='right' onClick={this.props.productAbbruchHandler} type="button" negative control={Button}>Abbrechen</Form.Field>
                 </Form.Group>
             </Form>
         )

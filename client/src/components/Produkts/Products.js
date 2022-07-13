@@ -17,6 +17,7 @@ function Products(props) {
 
     const productAnpassenHandler = (id) => {
         setEdit( prevState => prevState = id);
+        props.newButtonHandler();
     }
 
     const productLoeschenHandler = (id) => {
@@ -25,6 +26,12 @@ function Products(props) {
                 if(res.deletedCount) props.removeProduct(id);
             }
         });
+    }
+
+    const productAbbruchHandler = () => {
+        setEdit( prevState => prevState = null);
+        props.newButtonHandler();
+        if(props.name === 'new') props.productsHandler(Object.values(props).filter( el => typeof el === 'object'));
     }
 
     async function onUploadImage(imageObj){
@@ -42,7 +49,7 @@ function Products(props) {
     }
 
     if(props.name === "new" || edit){
-        return <NewProduct editHandleExported={editHandleExported} editId={edit} {...props} productsHandler={props.productsHandler}/>
+        return <NewProduct productAbbruchHandler={productAbbruchHandler} editHandleExported={editHandleExported} editId={edit} {...props} productsHandler={props.productsHandler}/>
     }
 
     let product = {};

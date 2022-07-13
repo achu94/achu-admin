@@ -26,30 +26,33 @@ const ProductList = () => {
     };
 
     const setProductsHandler = (productArray) => {
-        // das Object für neues Product anlegen wird entfernt.
+        setIsNew(false);
+
+        if(!productArray) {
+            setActiveItem(prevState => (
+                ""
+            ));
+            return;
+        }
+
         const newProductsArray = Object.values(products).filter(el => {
             if(el._id && el._id !== productArray._id){
                 return el;
             }
         });
-
-        // nur wenn neues Product geliefert wird.(productArray);
-        if(productArray) {
-            newProductsArray.push(productArray);
-            setActiveItem(prevState => productArray.name);
-        }
-        else {
-            setActiveItem("");
-        }
-
+        newProductsArray.push(productArray);
         setProducts(newProductsArray);
-        setIsNew(false);
+        setActiveItem(prevState => productArray.name);
     }
 
     const removeProduct = (productId) => {
         const newProductsArray = Object.values(products).filter(el => el._id !== productId);
         setActiveItem(_ => newProductsArray[0].name);
         setProducts(newProductsArray);
+    }
+
+    const newButtonHandler = () => {
+        setIsNew(!isNew);
     }
 
     return (
@@ -78,7 +81,7 @@ const ProductList = () => {
                 </Menu>
             </Grid.Column>
             <Grid.Column stretched width={12}>
-                <Products name={activeItem} productsHandler={setProductsHandler} removeProduct={removeProduct} {...products} />
+                <Products newButtonHandler={newButtonHandler} name={activeItem} productsHandler={setProductsHandler} removeProduct={removeProduct} {...products} />
             </Grid.Column>
         </Grid>
     )
