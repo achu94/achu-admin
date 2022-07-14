@@ -1,9 +1,16 @@
-function Galerie() {
-    return (
-        <>
-            <h1>Galerie</h1>
-        </>
-    );
-}
+import { Image, Container } from 'semantic-ui-react'
 
-export default Galerie;
+const src = '/images/wireframe/image.png'
+
+const ImageExampleGroupSize = () => (
+    <Container>
+        <Image.Group size='small'>
+            <Image src={src} />
+            <Image src={src} />
+            <Image src={src} />
+            <Image src={src} />
+        </Image.Group>
+    </Container>
+)
+
+export default ImageExampleGroupSize
