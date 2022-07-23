@@ -3,11 +3,12 @@ import {Segment, Image, Button, Item, Form} from "semantic-ui-react";
 import NewProduct from "./NewProduct";
 import * as productServices from "../../services/productServices";
 import MyDropzone from "../util/MyDropzone";
-import newProduct from "./NewProduct";
-
+import Modal from '../util/Modal';
 
 function Products(props) {
     const [edit, setEdit] = useState(null);
+    const [modalOpen, setModalOpen] = useState(false);
+
     const {name} = props;
     const ref = useRef();
 
@@ -20,7 +21,11 @@ function Products(props) {
         props.newButtonHandler();
     }
 
-    const productLoeschenHandler = (id) => {
+    const productLoeschenHandler = (id, answer) => {
+        setModalOpen( modalOpen => !modalOpen);
+
+        if (!answer) return;
+
         productServices.removeProduct(id).then( res => {
             if(res.deletedCount) {
                 if(res.deletedCount) props.removeProduct(id);
@@ -88,6 +93,16 @@ function Products(props) {
                     }) : ""
                 }
             </Image.Group>
+            <Modal
+                open={modalOpen}
+                size={'small'}
+                id={product._id}
+                callBackTrue={productLoeschenHandler}
+                meldungHeader={`${product.name} wird gelöscht`}
+                meldung="Diese vorgang kann nicht rückgängig gemacht werden, Sind Sie sicher?"
+            >
+
+            </Modal>
         </>
     )
 
