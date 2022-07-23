@@ -1,5 +1,5 @@
 import {useState, useEffect, useRef} from "react";
-import {Segment, Image, Button, Item, Form} from "semantic-ui-react";
+import {Segment, Image, Button, Item} from "semantic-ui-react";
 import NewProduct from "./NewProduct";
 import * as productServices from "../../services/productServices";
 import MyDropzone from "../util/MyDropzone";
