@@ -4,7 +4,7 @@ const errorHandler = (err, req, res, next) => {
 
     console.log(err.message);
 
-    res.status(err.status).send({error: err});
+    res.status(err.status).send({error: err, succes: false});
 };
 
 module.exports = errorHandler;

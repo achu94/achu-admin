@@ -18,8 +18,10 @@ const connect = async () => {
   }
 };
 
-const db_switch = async (db_name) => {
+const db_switch = async (db_name = 'Login') => {
   if (!db) await connect();
+
+  if(db_name === db.name) return;
 
   try {
     await mongoose.disconnect();

@@ -26,12 +26,18 @@ const userSchema = new mongoose.Schema({
     required: true,
     trim: true,
   },
-//   roles: [
-//     {
-//       type: mongoose.Schema.Types.ObjectId,
-//       ref: "Role",
-//     },
-//   ],
+  cluster: {
+    type: String,
+    required: true,
+    trim: true,
+    lowercase: true
+  },
+  roles: [
+    {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "Role",
+    },
+  ],
 });
 
 userSchema.pre('save', function(next){

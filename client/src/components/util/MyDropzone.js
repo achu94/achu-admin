@@ -17,9 +17,9 @@ function MyDropzone(props) {
     const onDrop = useCallback((acceptedFiles) => {
         acceptedFiles.forEach((file) => {
             const reader = new FileReader();
-
+            
             reader.onloadend = () => {
-                props.onUploadImageHandler(file, productId).then( (status) => {
+                props.onUploadImageHandler(file, productId).then( () => {
                     previewFile(reader);
                 });
             }

@@ -55,7 +55,6 @@ const TableRow = (props) => {
         {props.elType === "textArea" ? (
           <TextArea
             onBlur={saveData}
-            loading={isLoading}
             placeholder={props.value}
             className={isHidden ? "input_hidden" : ""}
             name={props.dbKey}
