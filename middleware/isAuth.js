@@ -13,8 +13,7 @@ module.exports = async function(req, res, next) {
         await db.db_switch(decoded.cluster);
         res.locals.user = decoded;
         res.locals.isAuth = true;
-
-        res.json({userData: decoded, isAuth: true});
+        // res.json({userData: decoded, isAuth: true});
     });
 
     next();

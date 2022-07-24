@@ -8,7 +8,7 @@ const CustomTable = () => {
   const [initialState, setInitialState] = useState([]);
 
   useEffect(() => {
-    fetch("/api/")
+    fetch("/api/general")
       .then((res) => {
         if (res.ok) return res.json();
       })

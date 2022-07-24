@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useContext } from "react";
 import {
   Button,
   Form,
@@ -9,20 +9,27 @@ import {
   Segment,
 } from "semantic-ui-react";
 import * as authService from "../../services/authServices";
-
 import { useNavigate } from "react-router-dom";
+import { isAuthContext } from "../util/isAuthContext";
 
 const Login = () => {
   const [isLoading, setIsLoading] = useState(false);
-  const [loggedIn, setLoggedIn] = useState(false);
 
   const navigate = useNavigate();
 
+  let userContext = useContext(isAuthContext);
+
   useEffect(() => {
-    if (loggedIn) {
+    if (userContext.userData.isAuth) {
       navigate("/");
     }
-  }, [loggedIn]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [userContext]);
+
+  // if (userContext.userData.isAuth) {
+  //   navigate("/");
+  //   return;
+  // }
 
   const onSubmitHandle = (event) => {
     setIsLoading((isLoading) => !isLoading);
@@ -32,12 +39,19 @@ const Login = () => {
 
     const submitData = Object.fromEntries(new FormData(target));
 
-    console.log(submitData);
-
     authService.Login(submitData).then((res) => {
-      console.log(res);
+      if(res.error){
+        alert(res.error.message);
+      }
+
+      userContext.setUserData( prevState => ({
+        ...prevState,
+        isAuth: res.isAuth,
+        id: res.id,
+        eMail: res.email
+      }));
+
       setIsLoading((isLoading) => !isLoading);
-      setLoggedIn((isLoggedIn) => !isLoggedIn);
     });
   };
 

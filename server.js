@@ -25,11 +25,15 @@ app.use(
     })
 );
 
-// app.use(express.static('./client/build'));
-
 require('./config/mongoose').connect();
+console.log(process.env.NODE_ENV);
+if(process.env.NODE_ENV === 'production') {
+    const publicPath = "./client/build";
 
-// app.use("/", isAuth);
+    app.use(express.static(publicPath));
+    app.use('*', express.static(publicPath));
+}
+
 app.use("/api", routes);
 app.use(errorHandler);
 

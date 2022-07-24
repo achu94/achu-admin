@@ -6,9 +6,7 @@ const db = require('../config/mongoose');
 
 
 const register = async ({firmenName, name, vorname, email, password}) => {
-
-    console.log(firmenName);
-
+    await db.db_switch();
 
     let user = await User.findOne({email});
     if(user) throw { message: "Email wird verwendet.", status: 404, input : 'eMail'}
@@ -18,6 +16,8 @@ const register = async ({firmenName, name, vorname, email, password}) => {
 }
 
 const login = async (email, password) => {
+    await db.db_switch();
+
     let user = await User.findOne({email});
     if(!user) throw {message: 'Потребителското име не съществува.', status: 404, input : 'username'};
     
@@ -29,7 +29,7 @@ const login = async (email, password) => {
 
     if(user.cluster) await db.db_switch(user.cluster);
     
-    return token;
+    return {token: token, _id: user.id, email: user.email};
 };
 
 module.exports = {

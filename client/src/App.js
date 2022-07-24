@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react';
 import {Routes, Route, useNavigate } from 'react-router-dom';
 import "./App.css";
 import * as authService from "./services/authServices";
+import { isAuthContext } from "./components/util/isAuthContext";
 
 import Home from "./components/Home/Home";
 import ProductList from "./components/Produkts/ProductList";
@@ -28,25 +29,32 @@ function App(props) {
         setUserData( prevState => ({
           ...prevState,
           isAuth : token.isAuth,
-          id : token.userData._id,
-          eMail : token.userData.email
+          id : token.user._id,
+          eMail : token.user.email
         }));
       })
+      // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  if(!userData.isAuth){
-    return <Routes> <Route path="/login" element={<Login />} /> </Routes>
-  }
-
   return (
-      <Routes>
+    <isAuthContext.Provider value={{userData, setUserData}}>
+        <Routes>
           <Route path="/" element={<Home />} />
-          <Route path="/products" element={<ProductList />} />
-          <Route path="/galerie" element={<Galerie />} />
-          <Route path="/referenz" element={<Referenz />} />
-          <Route path="/admin" element={<Admin />} />
-          <Route path="*" element={"404: Page not Found AMK"} />
-      </Routes>
+          {
+            !userData.isAuth ? (
+              <Route path="/login" element={<Login />} />
+            ) :
+            <>
+              <Route path="/products" element={<ProductList />} />
+              <Route path="/galerie" element={<Galerie />} />
+              <Route path="/referenz" element={<Referenz />} />
+              <Route path="/admin" element={<Admin />} />
+              <Route path="/login" element={<Login />} />
+              <Route path="*" element={"404: Page not Found AMK"} />
+            </>
+        }
+        </Routes>
+      </isAuthContext.Provider>
   );
 }
 
